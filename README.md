@@ -1,6 +1,6 @@
 # word-count
 
-counting all the same word in a article.
+counting all the same word in an article.
 
 # description
 
