@@ -1,12 +1,8 @@
 import sys
 import json
-import deepl
+from googletrans import Translator
 
-
-# 修改这里面的参数
-deepl_api_key = "<you need apply deepl api auth key>"
-
-translator = deepl.Translator(deepl_api_key)
+translator = Translator()
 
 # 打开“已掌握单词表”
 known_words = open(f"{sys.argv[2]}", "r")
@@ -47,15 +43,21 @@ for single_char in characters:
     w_count.update({word: w_count.get(word)+1})
     word = ""
 
-waiting_for_translate = w_count.keys()
+waiting_for_translate = list(w_count.keys())
 
-translated = translator.translate_text(
-  waiting_for_translate, target_lang=f"ZH")
+translated = []
 
-result = open(sys.argv[3], "a")
+for vocabulary in waiting_for_translate:
+  translated.append(translator.translate(vocabulary, dest="zh-CN"))
 
-result_size = len(result)
+result = open(sys.argv[3], "a", encoding="utf-8")
+
+result_size = len(translated)
 
 for i in range(result_size):
   result.write(
-    f"{waiting_for_translate[i]}::{w_count.get(waiting_for_translate[i])}::{translated[i]}"+"\n")
+    f"{waiting_for_translate[i]} -> {w_count.get(waiting_for_translate[i])} -> {translated[i].text}"+"\n")
+
+result.close()
+
+print(f"success!")

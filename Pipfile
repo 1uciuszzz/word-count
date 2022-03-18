@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 deepl = "*"
 autopep8 = "*"
+googletrans = "==4.0.0rc1"
 
 [dev-packages]
 
